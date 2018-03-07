@@ -2,11 +2,12 @@ import java.io.*;
 import java.util.*;
 public class Huffman
 {
+    static HashMap<Character, String> paths = new HashMap<>();
     public static void main(String args[]) throws IOException
     {
 
         //compress
-        BitInputStream inputStream = new BitInputStream("Hello World.txt");
+        BitInputStream inputStream = new BitInputStream("War and Peace.txt");
 
         HashMap<Character, Integer> frequencies = new HashMap<>(); //<character, frequency>
 
@@ -41,38 +42,70 @@ public class Huffman
             nodes.add(connector);
         }
 
-        HashMap<Character, String> paths = new HashMap<>(); //<character, path>
         //iterate through the tree
         Node current = nodes.peek();
-        visit(current, paths);
+        visit(current, "");
+
+        for(Character c : paths.keySet())
+        {
+            String output = paths.get(c);
+            if(output.length() > 34)
+                System.out.println(output);
+        }
+
+        inputStream.reset();
+        BitOutputStream outputStream = new BitOutputStream("War and Peace comp.666");
+        charInt = inputStream.read();
+        while(charInt != -1)
+        {
+            String output = paths.get((char)charInt);
+            outputStream.writeBits(output.length(), Integer.parseInt(output, 2));
+            charInt = inputStream.read();
+        }
+        outputStream.close();
+
+
+
+        //decompress
+        BitInputStream inputStream1 = new BitInputStream("War and Peace comp.666");
+        BitOutputStream outputStream1 = new BitOutputStream("War and Peace decomp.txt");
+        int bit = inputStream1.readBits(1);
+        current = nodes.peek();
+        while(bit != -1)
+        {
+            if(current.c != 0)
+            {
+                outputStream1.write(current.c);
+                current = nodes.peek();
+            }
+                if(bit == 0)
+                    current = current.left;
+                else if(bit == 1)
+                    current = current.right;
+                else
+                    System.out.println("ERROR: BIT NOT 0 OR 1");
+            bit = inputStream1.readBits(1);
+        }
+        outputStream1.close();
 
 
     }
 
-    public static void visit(Node parent, HashMap<Character, String> paths)
+    public static void visit(Node parent, String path)
     {
         if(parent.c != 0)
         {
-            paths.put(parent.c, parent.path);
+            paths.put(parent.c, path);
+            return;
         }
-
-        if(parent.left != null)
-        {
-            parent.left.path = parent.path += "0";
-        }
-        if(parent.right != null)
-        {
-            parent.right.path = parent.path += "1";
-        }
-        visit(parent.left, paths);
-        visit(parent.right, paths);
+        visit(parent.left, path + "0");
+        visit(parent.right, path + "1");
     }
 }
 class Node implements Comparable<Node>
 {
     char c; //null char value is '\u0000' OR just 0
     int freq;
-    String path = "";
     Node left, right;
 
     public int compareTo(Node otherNode)
