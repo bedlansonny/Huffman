@@ -14,6 +14,9 @@ Release Date: July 01, 1998 [EBook #1399]
 Reposted: April 02, 2005 [corrections, reposted to new folder structure
 by David Widger]
 Reposted: December 09, 2011 [corrections]
+Reposted: December 15, 2012 [corrections, conversion to HTML]
+Reposted: February 14, 2013 [conversion to XHTML Strict by David Widger]
+Reposted: February 22, 2013 [corrections, conversion to RST by Andrew
 Sly]
 Language: English
 Character set encoding: US-ASCII
@@ -40309,3 +40312,4 @@ This Web site includes information about Project Gutenberg(tm),
 including how to make donations to the Project Gutenberg Literary
 Archive Foundation, how to help produce our new eBooks, and how to
 subscribe to our email newsletter to hear about new eBooks.
+e
