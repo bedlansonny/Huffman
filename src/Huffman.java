@@ -7,7 +7,7 @@ public class Huffman
     {
 
         //compress
-        String filename = "Hello World.txt";
+        String filename = "War and Peace.txt";
         String[] splitFileName = filename.split("\\.");
         BitInputStream inputStream = new BitInputStream(filename);
 
@@ -73,7 +73,7 @@ public class Huffman
         {
             String output = paths.get(c);
             //if(output.length() > 34)
-                System.out.println(c + ": " + output);
+                //System.out.println(c + ": " + output);
         }
 
         inputStream.reset();
@@ -96,7 +96,7 @@ public class Huffman
         current = nodes.peek();
         while(current != null && bit != -1)
         {
-            System.out.print(bit);
+            //System.out.print(bit);
             if(current.c != 0)
             {
                 outputStream1.write(current.c);
